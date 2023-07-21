@@ -83,4 +83,4 @@ The Output Directory Text Box is currently read only and shows the value from th
 The **Download** button serves 2 purposes (currently).  If no selections have been made, a dialog will ask for confirmation to select all, and then return to the main display for any other actions required. If selections exist, it will instead generate a batch file <PID>.bat in the OUTDIR directory.
 
 
-Finally - The DataGrid itself can be sorted on all columns - The Length column is a cludge to work -it will be fixed later
+Finally - The DataGrid itself can be sorted on all columns - The Length column is a kludge to work -it will be fixed later
