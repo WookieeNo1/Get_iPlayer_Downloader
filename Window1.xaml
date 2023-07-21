@@ -1,0 +1,55 @@
+﻿<Window x:Class="Get_iPlayer_Downloads.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Get_iPlayer_Downloads"
+        mc:Ignorable="d"
+        Title="Glastonbury" Height="450" Width="979" WindowStartupLocation="CenterScreen">
+    <Grid x:Name="Glastonbury" Margin="0,1,2,-1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="91*"/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="lblPID" Content="PID" Margin="12,2,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" Height="33" />
+        <Label x:Name="lblRecording" Content="Recording" Margin="412.456,2,0,0" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Height="27" Grid.Column="1"/>
+        <Label x:Name="lblType" Content="Type" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="568.456,2,0,0" FontWeight="Bold" Height="33" Grid.Column="1"/>
+        <Label x:Name="lblExtras" Content="Extras" Margin="412.456,56,0,0" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Height="27" Grid.Column="1"/>
+        <DataGrid x:Name="DataGridRecordings" Margin="10,153,10,10" AlternationCount="2" IsReadOnly="True" AlternatingRowBackground="#FFBFCFF1" AutoGenerateColumns="False" Grid.ColumnSpan="2" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Type"  Width="75" CanUserResize="True" Binding="{Binding type}"/>
+                <DataGridTextColumn Header="Program"  Width="300" CanUserResize="True" Binding="{Binding episodeshort}"/>
+                <DataGridTextColumn Header="PID"  Width="75" CanUserResize="True" Binding="{Binding pid}"/>
+                <DataGridTextColumn Header="Length"  Width="75" CanUserResize="True" Binding="{Binding runtime}" FrameworkElement.FlowDirection="RightToLeft"/>
+                <DataGridTextColumn Header="Expires"  Width="250" CanUserResize="True" Binding="{Binding expires}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBox x:Name="txtPID" HorizontalAlignment="Left" TextWrapping="Wrap" Text="b007r6vx" VerticalAlignment="Top" Width="120" Margin="11,35,0,0" Grid.ColumnSpan="2" />
+        <Button x:Name="btnGetdata" Content="Get" HorizontalAlignment="Left" Height="20" Margin="74.635,34,0,0" VerticalAlignment="Top" Width="74" IsEnabled="False" Grid.Column="1"/>
+        <StackPanel Background ="LightGray" HorizontalAlignment="Left" Height="22" Margin="11,63,0,0" VerticalAlignment="Top" Width="120" Orientation="Horizontal" Grid.ColumnSpan="2">
+            <RadioButton x:Name="radioFull" Content="Full" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" VerticalContentAlignment="Center" IsChecked="True" ToolTip="Read Full MetaData"/>
+            <RadioButton x:Name="radioEpisodes" Content="Episodes" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" VerticalContentAlignment="Center" Margin="10,0,0,0" ToolTip="Program name and PID only"/>
+        </StackPanel>
+        <Button x:Name="btnRefresh" Content="Refresh" HorizontalAlignment="Left" Height="22" Margin="74.635,63,0,0" VerticalAlignment="Top" Width="74" Grid.Column="1"/>
+        <StackPanel Background ="LightGray" HorizontalAlignment="Left" Height="22" Margin="410.635,34,0,0" VerticalAlignment="Top" Width="150" Orientation="Horizontal" Grid.Column="1">
+            <RadioButton x:Name="radioAll" Content="All" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" VerticalContentAlignment="Center" IsChecked="True" ToolTip="Overwrite Existing"/>
+            <RadioButton x:Name="radioNew" Content="New only" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" VerticalContentAlignment="Center" Margin="10,0,0,0" ToolTip="Only episodes not previously downloaded"/>
+        </StackPanel>
+        <StackPanel Background="LightGray" Margin="411,83,0,271" HorizontalAlignment="Left" Orientation="Vertical" Width="150" Grid.Column="1">
+            <CheckBox x:Name="chkSubTitle" Content="SubTitle" HorizontalAlignment="Left" VerticalAlignment="Top" Height="18.858" Width="70.97" />
+            <CheckBox x:Name="chkThumbnail" Content="Thumbnail" HorizontalAlignment="Left" VerticalAlignment="Top" Height="18.858" Width="86.419" />
+            <CheckBox x:Name="chkTrackList" Content="Track Listing" HorizontalAlignment="Left" VerticalAlignment="Top" Height="17.364" Width="96.672" />
+        </StackPanel>
+        <StackPanel x:Name="StackPanel" Background="LightGray" HorizontalAlignment="Left" Height="96" VerticalAlignment="Top" Width="312" Margin="568.635,35,0,0" Grid.Column="1">
+            <RadioButton x:Name="radioTV" Content="TV" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,0,0,0" ToolTip="Only Shows TV episodes&#xa;Clears Selection"/>
+            <ComboBox x:Name="ComboTVQuality" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="4,0,0,0" ToolTip="Maximum Quality for TV"/>
+            <RadioButton x:Name="radioRadio" Content="Radio" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,0,0,0" ToolTip="Only Shows Radio episodes&#xa;Clears Selection" />
+            <ComboBox x:Name="ComboRadioQuality" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="4,0,0,0" ToolTip="Maximum Quality for Radio"/>
+            <RadioButton x:Name="radioBoth" Content="Both" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="True" Margin="4,0,0,0" ToolTip="Shows ALL episodes&#xa;Clears Selection"/>
+        </StackPanel>
+        <TextBox x:Name="txtSaveDir" HorizontalAlignment="Left" Text="D:\Glastonbury\2023\" VerticalAlignment="Top" Width="369.635" Margin="11,122,0,0" Grid.ColumnSpan="2" IsReadOnly="True" ScrollViewer.CanContentScroll="True" IsReadOnlyCaretVisible="True" />
+        <Label x:Name="lblSaveDir" Content="Output Directory" Margin="12,95,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" Height="33" Grid.ColumnSpan="2" Width="119" />
+        <Button x:Name="btnPerform" Content="Download" HorizontalAlignment="Left" Height="22" Margin="327.635,120,0,0" VerticalAlignment="Top" Width="74" Grid.Column="1" ToolTip="Download Selected Episodes"/>
+
+    </Grid>
+</Window>
