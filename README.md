@@ -4,7 +4,7 @@ Powershell GUI to simplify processing of Series and Episodes from BBC iPlayer us
 
 https://github.com/get-iplayer/get_iplayer_win32/releases
 
-This is a first cut - rapidly put up to allow downloads from the Glastonbury Set lists, which are rapidly vanishing. 
+This is a first cut - rapidly put up to allow downloads from the Glastonbury Set lists, which are rapidly vanishing.
 
 It is written using Powershell and requires the Windows Presentation Framework, so I don't know if non-windows users can use it. (Wine?)
 
@@ -13,7 +13,7 @@ There are issues with the interface, the final version will (hopefully) integrat
 ***Retrieving Full metadata is quite slow*** - my system took just over 13 1/2 minutes to download the available Glastonbury listing, compared to just over 2 1/2 for the episode data only.
 There is NO visual confirmation (yet) while it is running - just be patient...
 
-It is better to get the Full data, as durations and expiry information is not available when only the episode data is retrieved. I have included the current (as of midnight 20th July) full metadata for Glastonbury 2023
+It is better to get the Full data, as durations and expiry information are not available when only the episode data is retrieved. I have included the current (as of midday 5th July) full metadata for Glastonbury 2024.
 
 So, here goes...
 
@@ -79,6 +79,10 @@ The Drop-Down boxes allow the selection of the *maximum* quality for each type o
 ![image](https://github.com/WookieeNo1/Get_iPlayer_Downloader/assets/83819273/18cb7bdd-b951-44f2-a660-f25320b73348)
 
 The Output Directory Text Box is currently read only and shows the value from the OUTPUT parameter.  WPF does not currently provided a native Directory Selector, and (in the interest of getting this release out) I've not put any code behind this - it just shows you _where_ the base directory for your saved files.
+
+Update 1:
+Fix for Download Paths without spaces. Only Paths including spaces will now be wrapped in quotes
+Fix for Batch file created. Changed to CALL get_iplayer
 
 The **Download** button serves 2 purposes (currently).  If no selections have been made, a dialog will ask for confirmation to select all, and then return to the main display for any other actions required. If selections exist, it will instead generate a batch file <PID>.bat in the OUTDIR directory.
 
