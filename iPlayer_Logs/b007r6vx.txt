@@ -270,6 +270,7 @@ Glastonbury 2023: Live Sets (2024) - Sampha, , m0020r00
 Glastonbury 2023: Live Sets (2024) - Disclosure, , m0020s0w
 Glastonbury 2023: Live Sets (2024) - Michael Kiwanuka, , m0020r02
 Glastonbury 2023: 2024 - Headliners and Legends, , m0020twq
+Glastonbury 2023: 2024 - Pop, , m0020tws
 Glastonbury 2023: Live Sets (2024) - IDLES, , m0020qxx
 Glastonbury 2023: Live Sets (2024) - SEVENTEEN, , m0020s2y
 Glastonbury 2023: Live Sets (2024) - Anne-Marie, , m0020s2w
@@ -285,7 +286,7 @@ Glastonbury 2023: Live Sets (2024) - Glastonbury Daily Playlist &#x2013; Saturda
 Glastonbury 2023: Live Sets (2024) - Glastonbury Daily Playlist &#x2013; Sunday, , m0020r2n
 Glastonbury 2023: Live Sets (2024) - Olivia Dean, , m0020s18
 Glastonbury 2023: Live Sets (2024) - Camila Cabello, , m0020s1b
-INFO: 285 total programmes
+INFO: 286 total programmes
 
 INFO: Processing tv: 'Glastonbury: Classic Glastonbury - 05. Radiohead (p08gjnzz)'
 
@@ -15364,6 +15365,68 @@ verpids:         original: m0020twp
 version:         original
 versions:        original
 web:             https://www.bbc.co.uk/programmes/m0020twq
+
+
+INFO: Processing tv: 'Glastonbury: 2024 - Pop (m0020tws)'
+
+brand:           Glastonbury
+categories:      Performances & Events,Music
+category:        Performances & Events
+channel:         BBC Music
+credits:         C:\Users\user\Desktop\iPlayer Recordings\Glastonbury_2024_-_Pop_m0020tws_original.credits.txt
+cuesheet:        C:\Users\user\Desktop\iPlayer Recordings\Glastonbury_2024_-_Pop_m0020tws_original.cue
+desc:            Enjoy some pure pop perfection with this selection of performances from Glastonbury 2024.
+desclong:        Enjoy some pure pop perfection with this selection of performances from Glastonbury 2024.
+descmedium:      Enjoy some pure pop perfection with this selection of performances from Glastonbury 2024.
+descshort:       Enjoy some pure pop perfection with this selection of performances from Glastonbury 2024.
+dir:             C:\Users\user\Desktop\iPlayer Recordings
+dldate:          2024-07-05
+dltime:          12:56:57
+duration:        3480
+durations:       original: 3480
+episode:         Pop
+episodeshort:    Pop
+expires:         in 364 days 10 hours (2025-07-04T22:46:13+00:00)
+ext:             EXT
+filename:        C:\Users\user\Desktop\iPlayer Recordings\Glastonbury_2024_-_Pop_m0020tws_original.EXT
+filepart:        C:\Users\user\Desktop\iPlayer Recordings\Glastonbury_2024_-_Pop_m0020tws_original.partial.EXT
+fileprefix:      Glastonbury_2024_-_Pop_m0020tws_original
+firstbcast:      2024-07-04T22:45:00+01:00
+firstbcastdate:  2024-07-04
+firstbcastday:   04
+firstbcastmonth: 07
+firstbcastrel:   0 days 14 hours ago
+firstbcasttime:  22:45:00
+firstbcastyear:  2024
+longname:        Glastonbury: 2024
+name:            Glastonbury: 2024
+nameshort:       Glastonbury
+pid:             m0020tws
+player:          https://www.bbc.co.uk/iplayer/episode/m0020tws
+qualities:       original: fhd,hd,sd,web,mobile
+qualitysizes:    original: fhd=3765MB,hd=2397MB,sd=1356MB,web=783MB,mobile=246MB [estimated sizes]
+releaseyear:     2024
+runtime:         58
+sebcast:         202407042245
+sebcastdate:     20240704
+sebcasttime:     2245
+series:          2024
+seriesnum:       2024
+seriessort:      2024
+sesort:          202407042245
+sesortx:         202407042245
+subsfile:        C:\Users\user\Desktop\iPlayer Recordings\Glastonbury_2024_-_Pop_m0020tws_original.srt
+subspart:        C:\Users\user\Desktop\iPlayer Recordings\Glastonbury_2024_-_Pop_m0020tws_original.partial.srt
+subsraw:         C:\Users\user\Desktop\iPlayer Recordings\Glastonbury_2024_-_Pop_m0020tws_original.ttml
+thumbfile:       C:\Users\user\Desktop\iPlayer Recordings\Glastonbury_2024_-_Pop_m0020tws_original.jpg
+thumbnail:       https://ichef.bbci.co.uk/images/ic/1920x1080/p0j7g072.jpg
+title:           Glastonbury: 2024: Pop
+tracklist:       C:\Users\user\Desktop\iPlayer Recordings\Glastonbury_2024_-_Pop_m0020tws_original.tracks.txt
+type:            tv
+verpids:         original: m0020twr
+version:         original
+versions:        original
+web:             https://www.bbc.co.uk/programmes/m0020tws
 
 
 INFO: Processing radio: 'Glastonbury: Live Sets (2024) - 10. IDLES (m0020qxx)'
