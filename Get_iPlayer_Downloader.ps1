@@ -148,9 +148,14 @@ Function Perform_Click()
         $ExtraOptions += ($var_ComboRadioQuality.Items[$var_ComboRadioQuality.SelectedIndex..$var_ComboRadioQuality.Items.Count] | Join-String -Separator ',')
         $ExtraOptions += '"'
 
-        $ExtraOptions += ' -o "'
+        $ExtraOptions += ' -o '
+        if ($var_txtSaveDir.Text.contains(" ") -eq $true) {
+            $ExtraOptions += '"'
+        }
         $ExtraOptions += $var_txtSaveDir.Text
-        $ExtraOptions += '"'
+        if ($var_txtSaveDir.Text.contains(" ") -eq $true) {
+            $ExtraOptions += '"'
+        }
 
         # Hack for speedy release - ideally want to fire off PSJob items for each and monitor
         $TargetFile = $var_txtSaveDir.Text+$var_txtPID.Text.trim()+".bat"
@@ -161,7 +166,7 @@ Function Perform_Click()
         foreach ($Record in $var_DataGridRecordings.SelectedItems){
             $EpisodeOptions = " --PID "
             $EpisodeOptions += $Record.PID
-            $FullOpt = "get_iplayer ",$BaseOptions,$EpisodeOptions,$ExtraOptions -join ""
+            $FullOpt = "call get_iplayer ",$BaseOptions,$EpisodeOptions,$ExtraOptions -join ""
             Write-Host $Record.episodeshort
             $FullOpt >> $TargetFile
         }
