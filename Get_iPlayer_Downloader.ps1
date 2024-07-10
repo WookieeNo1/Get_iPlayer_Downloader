@@ -126,9 +126,14 @@ Function CheckCompletedJobs()
 {
     Get-Job -State Completed | ForEach-Object { 
         Write-Host "Completed Job:    " $_.Name.Substring(4)
-        $A=(Get-Job -Name $_.Name | Receive-Job)
-        if ($A[7].Contains("No media streams found for requested programme versions and recording quality")) {
-            Write-Host "NO STREAM AVAILABLE"
+        if ($_.HasMoreData){
+            $A=(Get-Job -Name $_.Name | Receive-Job)
+            if ($A[7].Contains("No media streams found for requested programme versions and recording quality")) {
+                Write-Host "NO STREAM AVAILABLE"
+            }
+        }
+        else{
+            Write-Host "No Data Found"
         }
         $_ | Remove-Job
     }
@@ -206,6 +211,9 @@ Function Perform_Click()
             $EpisodeOptions += $Record.PID
 
             if ($BJobMode){
+                $JobName = $FileName
+                $JobName += $EpisodeOptions
+                
                 $running = @(Get-Job | Where-Object { $_.State -eq 'Running' })
                 if ($running.Count -ge 10) {
                     $running | Wait-Job -Any | Out-Null
@@ -215,10 +223,10 @@ Function Perform_Click()
                     CheckCompletedJobs
                 }
 
-                Write-Host "Starting Job for: " $FileName
+                Write-Host "Starting Job for: " $JobName
                 $FullOpt = '& get_iplayer.cmd',$BaseOptions,$EpisodeOptions,$ExtraOptions -join ""
 
-                Start-Job -Name "Get $FileName" -ArgumentList $FullOpt -ScriptBlock {
+                Start-Job -Name "Get $JobName" -ArgumentList $FullOpt -ScriptBlock {
                   param($Command)
                     Invoke-Expression $Command
                 }
