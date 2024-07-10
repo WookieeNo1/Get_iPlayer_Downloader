@@ -1,9 +1,11 @@
 Param
 (
-    [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)][Alias('OUTPUT')][string] $SaveDir = "$PSScriptRoot\iPlayer_Episodes\", #b006q2x0 p0ff9dvh
-    [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)][Alias('LOGDIR')][string] $SRCDIR = "$PSScriptRoot\iPlayer_Logs\",
-    [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)][Alias('PID')]   [string] $SrcPID = "b007r6vx" #b006q2x0 p0ff9dvh
+    [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)][Alias('OUTPUT')]  [string] $SaveDir = "$PSScriptRoot\iPlayer_Episodes\", #b006q2x0 p0ff9dvh
+    [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)][Alias('LOGDIR')]  [string] $SRCDIR = "$PSScriptRoot\iPlayer_Logs\",
+    [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)][Alias('PID')]     [string] $SrcPID = "b007r6vx", #b006q2x0 p0ff9dvh
+    [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)][Alias('MODE')]    [string] $FileMode = "BATCH" #BATCH/JOB
 )
+
 Add-Type -AssemblyName PresentationFramework
 Clear-Host
 if (-not(Test-Path -Path $SaveDir -PathType Container -IsValid)) {
@@ -17,6 +19,21 @@ if (-not(Test-Path -Path $SRCDIR -PathType Container -IsValid)) {
 
 $ErrorActionPreference = 'Inquire'
 $NewLine = [Convert]::ToChar(10)
+$ValidModes = @("batch", "job")
+
+$BJobMode = $false
+
+if ($FileMode) {
+    $FileMode = $FileMode.ToString().ToLower()
+    if ($FileMode -notin $ValidModes){
+        Write-Host "Invalid FILEMODE parameter ($FileMode)"
+        exit 3
+    }
+    else{
+        $BJobMode = ($FileMode -eq $ValidModes[1])
+    }
+}
+
 
 #where is the XAML file?
 $xamlFile = "$PSScriptRoot\Window1.xaml"
@@ -104,6 +121,19 @@ Function Refresh_Click()
     }
 }
 
+
+Function CheckCompletedJobs()
+{
+    Get-Job -State Completed | ForEach-Object { 
+        Write-Host "Completed Job:    " $_.Name.Substring(4)
+        $A=(Get-Job -Name $_.Name | Receive-Job)
+        if ($A[7].Contains("No media streams found for requested programme versions and recording quality")) {
+            Write-Host "NO STREAM AVAILABLE"
+        }
+        $_ | Remove-Job
+    }
+
+}
 Function Perform_Click()
 {
     if ($var_DataGridRecordings.SelectedItems.Count -eq 0){
@@ -115,8 +145,8 @@ Function Perform_Click()
     }
     else {
         #(get_iplayer --nocopyright --force --overwrite    --subtitles --thumb --tracklist --pid b007r6vx --pid-recursive --subdir --subdir-format="<type>\<quality>\<series>" --tv-quality="fhd,hd" --radio-quality="high,std" -o "D:\Glastonbury"
-        $BaseOptions = "--nocopyright"
-        $ExtraOptions = ' --subdir --subdir-format="<type>\<quality>\<series>"'
+        $BaseOptions = " --nocopyright"
+        $ExtraOptions = ' --subdir --subdir-format=`"<type>\<quality>\<series>`"'
 
         if ($var_radioAll.IsChecked){
             $BaseOptions += ' --force --overwrite'
@@ -157,22 +187,62 @@ Function Perform_Click()
             $ExtraOptions += '"'
         }
 
-        # Hack for speedy release - ideally want to fire off PSJob items for each and monitor
-        $TargetFile = $var_txtSaveDir.Text+$var_txtPID.Text.trim()+".bat"
-        New-item $TargetFile -force
+        if ($BJobMode){
+            $window.Hide()
 
-        Write-Host "Processing Selected Recordings:"
+            Write-Host "Processing Selected Recordings:"
+        }
+        else{
+            $TargetFile = $var_txtSaveDir.Text+$var_txtPID.Text.trim()+".bat"
+            New-item $TargetFile -force
+        }
+        
 
-        foreach ($Record in $var_DataGridRecordings.SelectedItems){
+        $jobs = foreach ($Record in $var_DataGridRecordings.SelectedItems){
+
+            $FileName = $Record.episodeshort
+
             $EpisodeOptions = " --PID "
             $EpisodeOptions += $Record.PID
-            $FullOpt = "call get_iplayer ",$BaseOptions,$EpisodeOptions,$ExtraOptions -join ""
-            Write-Host $Record.episodeshort
-            $FullOpt >> $TargetFile
-        }
-        Set-Clipboard -Value $TargetFile
-        $null = ([System.Windows.MessageBox]::Show("$TargetFile Created" + $NewLine + $NewLine + "(Path has been copied to clipboard)","Batch Created",0,64) -eq "OK")
 
+            if ($BJobMode){
+                $running = @(Get-Job | Where-Object { $_.State -eq 'Running' })
+                if ($running.Count -ge 10) {
+                    $running | Wait-Job -Any | Out-Null
+                }
+
+                if ($running.Count -ne 0) {
+                    CheckCompletedJobs
+                }
+
+                Write-Host "Starting Job for: " $FileName
+                $FullOpt = '& get_iplayer.cmd',$BaseOptions,$EpisodeOptions,$ExtraOptions -join ""
+
+                Start-Job -Name "Get $FileName" -ArgumentList $FullOpt -ScriptBlock {
+                  param($Command)
+                    Invoke-Expression $Command
+                }
+            }
+            else{
+                Write-Host $FileName
+                $FullOpt = "call get_iplayer",$BaseOptions,$EpisodeOptions,$ExtraOptions -join ""
+                $FullOpt >> $TargetFile
+            }
+
+        }
+
+        if ($BJobMode){
+            $jobs | Wait-Job
+
+            CheckCompletedJobs
+
+            Write-Host "Ended Processing Selected Recordings"
+            $Null = $window.ShowDialog()
+        }
+        else{
+            Set-Clipboard -Value $TargetFile
+            $null = ([System.Windows.MessageBox]::Show("$TargetFile Created" + $NewLine + $NewLine + "(Path has been copied to clipboard)","Batch Created",0,64) -eq "OK")
+        }
     }
 }
 
