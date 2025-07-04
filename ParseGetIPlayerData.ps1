@@ -21,7 +21,7 @@ Function Compare-ObjectProperties {
             $diffs += $objprop
         }
     }
-    if ($diffs) {return ($diffs )}
+    if ($diffs) { return ($diffs ) }
 }
 
 $SrcData = Get-Content -Path $Data
@@ -40,15 +40,15 @@ $Multiples = New-Object System.Collections.Generic.List[string]
 
 $SrcObj = New-Object PSObject
 
-foreach ($Line in $SrcData){
+foreach ($Line in $SrcData) {
     $Line = $Line.Replace('&#x2013;', "-")
     $Line = $Line.Replace('&#x2019;', "'")
     $Line = $Line.Replace('&#x2026;', "...")
 
-    if ($bSrcFiles){
+    if ($bSrcFiles) {
         $bSrcFiles = ($Line -ne "")
 
-        if ($Line.StartsWith("INFO:")){
+        if ($Line.StartsWith("INFO:")) {
             $bSrcFiles = $false
         }
         if ($bSrcFiles -eq $true) {
@@ -77,7 +77,7 @@ foreach ($Line in $SrcData){
             }
         }
     }
-    elseif ($bSrcFileDetails -eq $false -and $Line -ne "" ){
+    elseif ($bSrcFileDetails -eq $false -and $Line -ne "" ) {
         if ($Line.Equals("Episodes:")) {
             $bSrcFiles = $true
         }
@@ -88,7 +88,7 @@ foreach ($Line in $SrcData){
             $bMultipleDefinitions = $false 
             # Hack for spurious multiline entries in metadata 
             # really needs to detect "web:" metadata entry and process 2 following blank lines as metadata terminator
-            $TerminalBlankLines=2
+            $TerminalBlankLines = 2
 
             $Multiples.Clear()
 
@@ -98,7 +98,7 @@ foreach ($Line in $SrcData){
     }
     if ($bSrcFileDetails) {
         #1st Line -  INFO: Processing tv: 'Glastonbury: 1997 - Radiohead (p08gjnzz)'
-        if ($Line -eq ""){
+        if ($Line -eq "") {
             if ($bSkipBlankLine -eq $true) {
                 $bSkipBlankLine = $false
             }
@@ -106,9 +106,9 @@ foreach ($Line in $SrcData){
                 $TerminalBlankLines -= 1
                 # Hack for spurious multiline entries in metadata 
                 # really needs to detect "web:" metadata entry and process 2 following blank lines as metadata terminator
-                if ($TerminalBlankLines -eq 0){
+                if ($TerminalBlankLines -eq 0) {
                     # Last Line of Object Reached
-                    if ($bMultipleDefinitions){
+                    if ($bMultipleDefinitions) {
                         $bMultipleDefinitions = $false
 
                         $SrcObj | Add-Member -MemberType NoteProperty -Name "Multiples" -Value "True"
@@ -119,11 +119,9 @@ foreach ($Line in $SrcData){
 
                     # Ensure all entries have any new metadata fields
                     $ExtraProps = Compare-ObjectProperties $SrcObjCollection[0] $SrcObj
-                    if ($null -ne $ExtraProps)
-                    {
+                    if ($null -ne $ExtraProps) {
                         For ($num = 0 ; $num -le ($SrcObjCollection.Count - 2)  ; $num++) {
-                            ForEach ( $NewProperty in $ExtraProps )
-                            {
+                            ForEach ( $NewProperty in $ExtraProps ) {
                                 $SrcObjCollection[$num] | Add-Member -MemberType NoteProperty -Name $NewProperty -Value $SrcObj.episodeshort
                             }
                         }
@@ -134,10 +132,10 @@ foreach ($Line in $SrcData){
         if ($bSrcFileDetails) {
             if ($Line -ne "") {
                 # hack Reset terminator count
-                if ($TerminalBlankLines -ne 2){
+                if ($TerminalBlankLines -ne 2) {
                     $TerminalBlankLines = 2
                 }
-                if ( $bSkipFirstLine ){
+                if ( $bSkipFirstLine ) {
                     $bSkipFirstLine = $false
                 }
                 else {
@@ -148,18 +146,17 @@ foreach ($Line in $SrcData){
                         $ExistingValue = $SrcObj.$DetailKey
                         $SrcObj | Add-Member -MemberType NoteProperty -Name $DetailKey -Value ($ExistingValue + " " + $Line) -Force
                     }
-                    else
-                    {
-                        $DetailKey=$Line.Split(":",2)[0].Trim()
-                        $DetailValue=$Line.Split(":",2)[1].Trim()
-                        if ($DetailKey -eq "expires"){
+                    else {
+                        $DetailKey = $Line.Split(":", 2)[0].Trim()
+                        $DetailValue = $Line.Split(":", 2)[1].Trim()
+                        if ($DetailKey -eq "expires") {
                             #expires:         in 4 days 14 hours (2023-07-24T18:00:00+00:00)
-                            $Parts=$DetailValue.Split("(")
+                            $Parts = $DetailValue.Split("(")
                             $DetailValue = $Parts[1].TrimEnd(")")
                         }
-                        if ($DetailKey -eq "runtime"){
+                        if ($DetailKey -eq "runtime") {
                             #runtime:         60
-                            $DetailValue = $DetailValue.PadLeft(3,"0").PadLeft(8," ")
+                            $DetailValue = $DetailValue.PadLeft(3, "0").PadLeft(8, " ")
                         }
 
                         $ExistingValue = $SrcObj.$DetailKey
@@ -167,8 +164,7 @@ foreach ($Line in $SrcData){
                         if ($null -eq $ExistingValue) {
                             $SrcObj | Add-Member -MemberType NoteProperty -Name $DetailKey -Value $DetailValue
                         }
-                        else
-                        {
+                        else {
                             $bMultipleDefinitions = $true
                             $Multiples.Add($DetailKey)
                             $SrcObj | Add-Member -MemberType NoteProperty -Name $DetailKey -Value ($ExistingValue + ";" + $DetailValue) -Force
@@ -181,8 +177,7 @@ foreach ($Line in $SrcData){
 }
 # Ensure last entry has all required metadata fields
 $ExtraProps = Compare-ObjectProperties $SrcObjCollection[-1] $SrcObjCollection[0]
-if ($null -ne $ExtraProps)
-{
+if ($null -ne $ExtraProps) {
     ForEach ( $NewProperty in $ExtraProps ) {
         $SrcObjCollection[-1] | Add-Member -MemberType NoteProperty -Name $NewProperty -Value $SrcObjCollection[0].episodeshort
     }

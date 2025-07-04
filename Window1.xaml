@@ -35,7 +35,7 @@
             <RadioButton x:Name="radioAll" Content="All" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" VerticalContentAlignment="Center" IsChecked="True" ToolTip="Overwrite Existing"/>
             <RadioButton x:Name="radioNew" Content="New only" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" VerticalContentAlignment="Center" Margin="10,0,0,0" ToolTip="Only episodes not previously downloaded"/>
         </StackPanel>
-        <StackPanel Background="LightGray" Margin="411,83,0,271" HorizontalAlignment="Left" Orientation="Vertical" Width="150" Grid.Column="1">
+        <StackPanel Background="LightGray" Margin="411,83,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Grid.Column="1" Height="59">
             <CheckBox x:Name="chkSubTitle" Content="SubTitle" HorizontalAlignment="Left" VerticalAlignment="Top" Height="18.858" Width="70.97" />
             <CheckBox x:Name="chkThumbnail" Content="Thumbnail" HorizontalAlignment="Left" VerticalAlignment="Top" Height="18.858" Width="86.419" />
             <CheckBox x:Name="chkTrackList" Content="Track Listing" HorizontalAlignment="Left" VerticalAlignment="Top" Height="17.364" Width="96.672" />

@@ -4,7 +4,7 @@ Powershell GUI to simplify processing of Series and Episodes from BBC iPlayer us
 
 https://github.com/get-iplayer/get_iplayer_win32/releases
 
-It allows downloads from the Glastonbury Set lists, which are rapidly vanishing.
+It allows downloads from the Glastonbury Set lists, which are rapidly vanish.
 
 It is written using Powershell and requires the Windows Presentation Framework, so I don't know if non-windows users can use it. (Wine?)
 
@@ -13,7 +13,7 @@ This version can either process selections immediately or generate a batch file 
 ***Retrieving Full metadata is quite slow*** - my system took just over 13 1/2 minutes to download the available Glastonbury listing, compared to just over 2 1/2 for the episode data only.
 There is NO visual confirmation (yet) while it is running - just be patient...
 
-It is better to get the Full data, as durations and expiry information are unavailable when only the episode data is retrieved. I have included the current (as of 10th July) full metadata for Glastonbury 2024.
+It is better to get the Full data, as durations and expiry information are unavailable when only the episode data is retrieved. I have included the current (as of 4th July) full metadata for Glastonbury 2025.
 
 So, here goes...
 
@@ -99,3 +99,9 @@ Fix for Batch file created. Changed to CALL get_iplayer
 
 Update 2:
 User selection of Batch or Immediate Processing via the MODE parameter
+
+Update 3:
+Updated Glastonbury 2025 list - as of 03/07/2025
+Fix for Job Mode failing with existing Downloads - Now reports "Skipped - Already Downloaded" to console log
+Job Mode checks sufficient free space available for selected downloads
+Small Fix to Form - Extras panel no longer resizes with form
