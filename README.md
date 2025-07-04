@@ -4,7 +4,7 @@ Powershell GUI to simplify processing of Series and Episodes from BBC iPlayer us
 
 https://github.com/get-iplayer/get_iplayer_win32/releases
 
-It allows downloads from the Glastonbury Set lists, which are rapidly vanish.
+It allows downloads from the Glastonbury Set lists, which rapidly vanish.
 
 It is written using Powershell and requires the Windows Presentation Framework, so I don't know if non-windows users can use it. (Wine?)
 
